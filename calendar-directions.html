@@ -1,0 +1,232 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar & Directions</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f1e9;
+            color: #1a1a1a;
+            text-align: center;
+        }
+        header {
+            background-color: #1a1a1a;
+            color: #f5f1e9;
+            padding: 20px;
+            border-bottom: 10px solid #4a2c2a;
+            width: 100%;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .menu-bar {
+            background-color: #1a1a1a;
+            padding: 10px 0;
+            border-bottom: 2px solid #4a2c2a;
+            width: 100%;
+        }
+        .menu-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .menu-bar ul li {
+            display: inline;
+        }
+        .menu-bar ul li a {
+            color: #f5f1e9;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 5px 15px;
+        }
+        .menu-bar ul li a:hover {
+            background-color: #2e1a18;
+            border-radius: 5px;
+        }
+        .calendar-directions-page {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            border: 2px solid #4a2c2a;
+            border-radius: 5px;
+            color: #1a1a1a;
+        }
+        .calendar-directions-page h2 {
+            color: #4a2c2a;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .calendar-directions-page p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .calendar-section, .directions-section {
+            margin-bottom: 40px;
+        }
+        .directions-section h3 {
+            color: #4a2c2a;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #1a1a1a;
+            color: #f5f1e9;
+            padding: 10px;
+            margin-top: 20px;
+            border-top: 5px solid #4a2c2a;
+            width: 100%;
+            clear: both;
+        }
+        footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .calendar-directions-page {
+                margin: 10px;
+                padding: 10px;
+            }
+            iframe {
+                width: 100%;
+                height: 400px;
+            }
+            .menu-bar ul {
+                gap: 10px; /* Reduce gap on mobile */
+            }
+            .menu-bar ul li a {
+                font-size: 1em; /* Slightly smaller font on mobile */
+                padding: 5px 10px; /* Adjust padding for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Calendar & Directions</h1>
+    </header>
+    <nav class="menu-bar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calendar-directions.html">Calendar & Directions</a></li>
+        </ul>
+    </nav>
+    <div class="calendar-directions-page">
+        <div class="calendar-section">
+            <h2>Contra Dance Events</h2>
+            <p>Check our upcoming dances—usually every Sunday, with occasional special Saturdays.</p>
+            <iframe src="https://calendar.google.com/calendar/embed?src=217441404dc6a29d7235149306cef04f1c6508908b01bf5cbad1ac59a4267cdc%40group.calendar.google.com&ctz=America%2FLos_Angeles" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <div class="directions-section">
+            <h2>Directions</h2>
+            <h3 id="venue-name">Loading...</h3>
+            <p id="venue-address">Loading...</p>
+            <iframe id="venue-map" src="" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+    <footer>
+        <p>More info: contradancetwisp@gmail.com</p>
+    </footer>
+
+    <script>
+        const venues = {
+            "Methow Valley UMC Fellowship Hall, Twisp WA": {
+                name: "Methow Valley UMC Fellowship Hall",
+                address: "193B Old Twisp Hwy, Twisp, WA 98856",
+                embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2091.5998644124884!2d-120.15663!3d48.42277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549c9f0e5e5e5e5e%3A0x0!2sMethow%20Valley%20United%20Methodist%20Church%2C%20193B%20Old%20Twisp%20Hwy%2C%20Twisp%2C%20WA%2098856!5e1!3m2!1sen!2sus!4v1754508115294!5m2!1sen!2sus"
+            },
+            "Twisp Valley Grange, Twisp WA": {
+                name: "Twisp Valley Grange",
+                address: "344 W. 2nd Ave, Twisp, WA 98856",
+                embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2091.5998644124884!2d-120.1289970888383!3d48.36551137114978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549ca3ff3c2c51c5%3A0xd68aac688d7f0913!2sTwisp%20Valley%20Grange!5e1!3m2!1sen!2sus!4v1754508115294!5m2!1sen!2sus"
+            }
+            // Add more venues here as needed, keyed by exact subtitle text
+        };
+
+        async function updateLocation() {
+            try {
+                const response = await fetch('index.html');
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const subtitleElement = doc.querySelector('.event-subtitle');
+                if (!subtitleElement) {
+                    console.warn('Subtitle not found in index.html');
+                    return;
+                }
+                const subtitle = subtitleElement.textContent.trim();
+                const venue = venues[subtitle];
+                if (!venue) {
+                    console.warn(`No venue config for subtitle: "${subtitle}"`);
+                    return;
+                }
+
+                document.getElementById('venue-name').textContent = venue.name;
+                document.getElementById('venue-address').textContent = venue.address;
+                document.getElementById('venue-map').src = venue.embed;
+            } catch (error) {
+                console.error('Error fetching/updating location:', error);
+                // Fallback to default (e.g., Grange) if fetch fails
+                const defaultVenue = venues["Twisp Valley Grange, Twisp WA"];
+                if (defaultVenue) {
+                    document.getElementById('venue-name').textContent = defaultVenue.name;
+                    document.getElementById('venue-address').textContent = defaultVenue.address;
+                    document.getElementById('venue-map').src = defaultVenue.embed;
+                }
+            }
+        }
+
+        // Run on page load
+        updateLocation();
+    </script>
+</body>
+</html>
