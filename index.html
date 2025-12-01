@@ -136,6 +136,28 @@
         .cta a:hover {
             background-color: #2e1a18;
         }
+        .social-share {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .social-share a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: #4a2c2a;
+            color: #f5f1e9;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .social-share a:hover {
+            background-color: #2e1a18;
+        }
         footer {
             background-color: #1a1a1a;
             color: #f5f1e9;
@@ -180,6 +202,16 @@
             }
             .event-subtitle {
                 font-size: 0.75em; /* Even smaller on mobile for balance */
+            }
+            .social-share {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .social-share a {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
             }
         }
     </style>
@@ -227,6 +259,12 @@
         <div class="cta">
             <p>Let’s share music, movement, and connection. Hope to see you there!</p>
         </div>
+        <div class="social-share">
+            <a href="#" onclick="shareFacebook()">📘 Share on Facebook</a>
+            <a href="#" onclick="shareTwitter()">🐦 Share on X (Twitter)</a>
+            <a href="#" onclick="shareInstagram()">📷 Share on Instagram</a>
+            <a href="#" onclick="shareTikTok()">🎵 Share on TikTok</a>
+        </div>
     </div>
     <footer>
         <p>More info: contradancetwisp@gmail.com</p>
@@ -245,6 +283,39 @@
             }
         }
         updateNextSunday();  // Run on load
+
+        // Social Sharing Functions
+        const shareText = "Unlock Twisp contra: Teaches per dance, free door. Show Sundays & dance the night. ";
+        const currentUrl = encodeURIComponent(window.location.href);
+
+        function shareFacebook() {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`, '_blank', 'width=600,height=400');
+        }
+
+        function shareTwitter() {
+            const tweetText = encodeURIComponent(shareText + currentUrl + ' #ContraDance #Twisp');
+            window.open(`https://twitter.com/intent/tweet?url=${currentUrl}&text=${tweetText}`, '_blank', 'width=600,height=400');
+        }
+
+        async function shareInstagram() {
+            try {
+                await navigator.clipboard.writeText(shareText + currentUrl);
+                alert('Copied! Paste into your Instagram story or post to share the dance vibes.');
+            } catch (err) {
+                // Fallback for older browsers
+                prompt('Copy this to share on Instagram:', shareText + currentUrl);
+            }
+        }
+
+        async function shareTikTok() {
+            try {
+                await navigator.clipboard.writeText(shareText + currentUrl);
+                alert('Copied! Paste into a TikTok caption or duet to get folks twirling.');
+            } catch (err) {
+                // Fallback
+                prompt('Copy this to share on TikTok:', shareText + currentUrl);
+            }
+        }
     </script>
 </body>
 </html>
