@@ -277,49 +277,29 @@
     <script>
         function updateNextSunday() {
             const today = new Date();
+            const weekday = today.getDay();  // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+        
+            let daysToAdd;
+            if (weekday === 0) {  // Today is Sunday → show next week
+                daysToAdd = 7;
+            } else {
+                // Monday–Saturday → show the upcoming Sunday (could be this week or next)
+                daysToAdd = (7 - weekday) % 7;
+                if (daysToAdd === 0) daysToAdd = 7;  // Handles the %7 edge case cleanly
+            }
+        
             const nextSunday = new Date(today);
-            nextSunday.setDate(today.getDate() + ((7 - today.getDay()) % 7 || 7));  // Next Sunday
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const formattedDate = nextSunday.getDate();
+            nextSunday.setDate(today.getDate() + daysToAdd);
+        
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        
             const h2 = document.querySelector('.event-details h2');
             if (h2) {
-                h2.textContent = `This Coming Sunday, ${monthNames[nextSunday.getMonth()]} ${formattedDate} | 7:00-9:00 PM`;
+                h2.textContent = `This Coming Sunday, ${monthNames[nextSunday.getMonth()]} ${nextSunday.getDate()} | 6:00-9:00 PM`;
             }
         }
         updateNextSunday();  // Run on load
-
-        // Social Sharing Functions
-        const shareText = "Unlock Twisp contra: Teaches per dance, free door. Show Sundays & dance the night. ";
-        const currentUrl = encodeURIComponent(window.location.href);
-
-        function shareFacebook() {
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`, '_blank', 'width=600,height=400');
-        }
-
-        function shareTwitter() {
-            const tweetText = encodeURIComponent(shareText + currentUrl + ' #ContraDance #Twisp');
-            window.open(`https://twitter.com/intent/tweet?url=${currentUrl}&text=${tweetText}`, '_blank', 'width=600,height=400');
-        }
-
-        async function shareInstagram() {
-            try {
-                await navigator.clipboard.writeText(shareText + currentUrl);
-                alert('Copied! Paste into your Instagram story or post to share the dance vibes.');
-            } catch (err) {
-                // Fallback for older browsers
-                prompt('Copy this to share on Instagram:', shareText + currentUrl);
-            }
-        }
-
-        async function shareTikTok() {
-            try {
-                await navigator.clipboard.writeText(shareText + currentUrl);
-                alert('Copied! Paste into a TikTok caption or duet to get folks twirling.');
-            } catch (err) {
-                // Fallback
-                prompt('Copy this to share on TikTok:', shareText + currentUrl);
-            }
-        }
     </script>
 </body>
 </html>
