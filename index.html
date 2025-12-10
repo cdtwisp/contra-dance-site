@@ -235,7 +235,7 @@
         <div class="event-details">
             <h2 id="dynamic-date">This Coming Sunday | 7:00-9:00 PM</h2>
             <p>Join us for an evening of easy and fun contra dancing! This social, upbeat community folk dance features simple patterns anyone can learn — no experience or partner needed.</p>
-            <p>We teach all the steps before each dance, making it perfect for everyone. Come to dance or just soak up the great company and lively music! (Usually Sundays—special Saturdays TBA.)</p>
+            <p>We teach all the steps before each dance, making it perfect for everyone. Come to dance or just soak up the great company and lively music!</p>
         </div>
         <div class="highlights">
             <div class="highlight">
@@ -275,30 +275,30 @@
     </footer>
 
     <script>
-    function updateNextSunday() {
+    function updateNextSaturday() {
         const today = new Date();
-        const weekday = today.getDay();  // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+        const weekday = today.getDay();  // 0 = Sunday, 6 = Saturday
         
         let daysToAdd;
-        if (weekday === 0) {  // Today is Sunday → show TODAY
+        if (weekday === 6) {  // Today is Saturday → show TODAY
             daysToAdd = 0;
         } else {
-            // Monday–Saturday → show the upcoming Sunday
-            daysToAdd = (7 - weekday) % 7 || 7;  // ||7 handles the Saturday edge case
+            // Any other day → show the upcoming Saturday
+            daysToAdd = (6 - weekday + 7) % 7 || 7;  // works perfectly Sun–Fri
         }
         
-        const nextSunday = new Date(today);
-        nextSunday.setDate(today.getDate() + daysToAdd);
+        const nextSaturday = new Date(today);
+        nextSaturday.setDate(today.getDate() + daysToAdd);
         
         const monthNames = ["January", "February", "March", "April", "May", "June",
                             "July", "August", "September", "October", "November", "December"];
         
         const h2 = document.querySelector('.event-details h2');
         if (h2) {
-            h2.textContent = `This Coming Sunday, ${monthNames[nextSunday.getMonth()]} ${nextSunday.getDate()} | 6:00-9:00 PM`;
+            h2.textContent = `This Coming Saturday, ${monthNames[nextSaturday.getMonth()]} ${nextSaturday.getDate()} | 6:00-9:00 PM`;
         }
     }
-    updateNextSunday();  // Run on load
+    updateNextSaturday();  // Run on load
 </script>
 </body>
 </html>
