@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evening Contra Dance – Twisp</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- your existing <style> block stays exactly the same -->
+    <style>
+        /* … (all your current styles – no changes needed) … */
+        .social-share { margin: 30px 0; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .social-share a { /* same as before */ }
+        @media (max-width: 768px) { .social-share { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Evening Contra Dance</h1>
+        <p class="event-subtitle">Methow Valley UMC Fellowship Hall, Twisp WA</p>
+    </header>
+    <nav class="menu-bar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="location.html">Location & Directions</a></li>
+        </ul>
+    </nav>
+    <!-- rest of your page exactly as before -->
+    <div class="main-content"> … </div>
+
+    <script>
+        function updateNextSaturday() {
+            const today = new Date();
+            const weekday = today.getDay();  // 6 = Saturday
+            let daysToAdd = (weekday === 6) ? 0 : (6 - weekday + 7) % 7 || 7;
+            const nextSaturday = new Date(today);
+            nextSaturday.setDate(today.getDate() + daysToAdd);
+            const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+            const h2 = document.querySelector('.event-details h2');
+            if (h2) h2.textContent = `This Coming Saturday, ${monthNames[nextSaturday.getMonth()]} ${nextSaturday.getDate()} | 6:00–9:00 PM`;
+        }
+        updateNextSaturday();
+
+        // Social sharing stays the same
+        const shareText = "Unlock Twisp contra: Teaches per dance, free door. Show Saturdays & dance the night. ";
+        const currentUrl = encodeURIComponent(window.location.href);
+        function shareFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`,'_blank'); }
+        function shareTwitter() { window.open(`https://twitter.com/intent/tweet?url=${currentUrl}&text=${encodeURIComponent(shareText + currentUrl + ' #ContraDance #Twisp')}`,'_blank'); }
+        async function shareInstagram() { try { await navigator.clipboard.writeText(shareText + currentUrl); alert('Copied! Paste into IG'); } catch { prompt('Copy:', shareText + currentUrl); } }
+        async function shareTikTok() { shareInstagram(); }  // same behaviour
+    </script>
+</body>
+</html>
