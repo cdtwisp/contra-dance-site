@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location & Directions – Twisp Contra</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        body {font-family:'Georgia',serif;margin:0;background:#f5f1e9;color:#1a1a1a;text-align:center;}
+        header {background:#1a1a1a;color:#f5f1e9;padding:20px;border-bottom:10px solid #4a2c2a;}
+        header h1 {margin:0;font-size:2.5em;text-transform:uppercase;letter-spacing:2px;}
+        .menu-bar {background:#1a1a1a;padding:10px 0;border-bottom:2px solid #4a2c2a;}
+        .menu-bar ul {list-style:none;padding:0;margin:0;display:flex;justify-content:center;gap:30px;}
+        .menu-bar a {color:#f5f1e9;text-decoration:none;font-size:1.2em;padding:5px 15px;}
+        .menu-bar a:hover {background:#2e1a18;border-radius:5px;}
+        .location-page {max-width:900px;margin:40px auto;padding:20px;}
+        .location-page h2 {color:#4a2c2a;font-size:2.2em;}
+        .location-page h3 {color:#4a2c2a;font-size:1.8em;margin:20px 0 10px;}
+        iframe {width:100%;height:550px;border:0;border-radius:8px;}
+        footer {background:#1a1a1a;color:#f5f1e9;padding:15px;margin-top:50px;}
+        @media (max-width:768px) {iframe{height:400px;}}
+    </style>
+</head>
+<body>
+    <header><h1>Location & Directions</h1></header>
+    <nav class="menu-bar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="location.html">Location & Directions</a></li>
+        </ul>
+    </nav>
+    <div class="location-page">
+        <h2>Current Dance Venue</h2>
+        <h3 id="venue-name">Loading…</h3>
+        <p id="venue-address">Loading…</p>
+        <iframe id="venue-map" src="" allowfullscreen="" loading="lazy"></iframe>
+
+        <p style="margin-top:30px;font-size:1.1em;">
+            <strong>Parking:</strong> Plenty of free parking right outside.<br>
+            <strong>Entrance:</strong> Use the side door by the fellowship hall.<br>
+            Shoes: Soft-soled please — help us protect the floor!
+        </p>
+    </div>
+    <footer><p>Questions? contradancetwisp@gmail.com</p></footer>
+
+    <script>
+        const venues = {
+            "Methow Valley UMC Fellowship Hall, Twisp WA": {
+                name: "Methow Valley UMC Fellowship Hall",
+                address: "193B Old Twisp Hwy, Twisp, WA 98856",
+                embed: "https://www.google.com/maps/embed?pb=…UMC…" // your full embed URL
+            },
+            "Twisp Valley Grange, Twisp WA": {
+                name: "Twisp Valley Grange",
+                address: "344 W 2nd Ave, Twisp, WA 98856",
+                embed: "https://www.google.com/maps/embed?pb=…Grange…"
+            }
+        };
+
+        async function loadVenue() {
+            try {
+                const resp = await fetch('index.html');
+                const html = await resp.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const sub = doc.querySelector('.event-subtitle')?.textContent.trim();
+                const v = venues[sub] || venues["Twisp Valley Grange, Twisp WA"];
+                document.getElementById('venue-name').textContent = v.name;
+                document.getElementById('venue-address').textContent = v.address;
+                document.getElementById('venue-map').src = v.embed;
+            } catch(e) {
+                // fallback to Grange if anything fails
+                const v = venues["Twisp Valley Grange, Twisp WA"];
+                document.getElementById('venue-name').textContent = v.name;
+                document.getElementById('venue-address').textContent = v.address;
+                document.getElementById('venue-map').src = v.embed;
+            }
+        }
+        loadVenue();
+    </script>
+</body>
+</html>
