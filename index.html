@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evening Contra Dance</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        body {font-family:'Georgia',serif;margin:0;padding:0;background:#f5f1e9;color:#1a1a1a;text-align:center;}
+        header {background:#1a1a1a;color:#f5f1e9;padding:20px;border-bottom:10px solid #4a2c2a;width:100%;}
+        header h1 {margin:0;font-size:2.5em;font-weight:bold;text-transform:uppercase;letter-spacing:2px;}
+        .event-subtitle {font-size:0.8em;font-style:italic;color:#ccc;margin-top:-0.5em;margin-bottom:0;}
+        .menu-bar {background:#1a1a1a;padding:10px 0;border-bottom:2px solid #4a2c2a;width:100%;}
+        .menu-bar ul {list-style:none;padding:0;margin:0;display:flex;justify-content:center;gap:20px;}
+        .menu-bar ul li a {color:#f5f1e9;text-decoration:none;font-size:1.2em;padding:5px 15px;}
+        .menu-bar ul li a:hover {background:#2e1a18;border-radius:5px;}
+        .main-content {max-width:1200px;margin:0 auto;padding:20px;}
+        .event-details {margin:20px 0;background-image:url('https://raw.githubusercontent.com/cdtwisp/contra-dance-site/main/contra-dance-poster.png');padding:20px;border:2px solid #4a2c2a;border-radius:5px;background-size:cover;background-position:center;color:#1a1a1a;}
+        .event-details h2 {color:#4a2c2a;font-size:1.8em;font-weight:bold;}
+        .event-details p {font-size:1.2em;line-height:1.6;}
+        .highlights {display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin:20px 0;width:100%;}
+        .highlight {background:rgba(245,241,233,0.9);border:2px solid #1a1a1a;border-radius:5px;padding:15px;box-shadow:0 2px 5px rgba(0,0,0,0.1);flex:1;min-width:200px;position:relative;}
+        .highlight p {margin:0;font-size:1.1em;color:#1a1a1a;}
+        .highlight:before {content:"♪";position:absolute;top:-10px;left:10px;color:#4a2c2a;font-size:1.5em;}
+        .cta {margin:30px 0;}
+        .cta p {font-size:1.2em;color:#4a2c2a;}
+        .social-share {margin:30px 0;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
+        .social-share a {display:inline-flex;align-items:center;gap:8px;padding:10px 15px;background:#4a2c2a;color:#f5f1e9;text-decoration:none;border-radius:5px;font-size:1em;transition:background 0.3s;}
+        .social-share a:hover {background:#2e1a18;}
+        footer {background:#1a1a1a;color:#f5f1e9;padding:10px;margin-top:20px;border-top:5px solid #4a2c2a;width:100%;}
+        @media (max-width:768px) {
+            header h1 {font-size:2em;}
+            .event-subtitle {font-size:0.75em;}
+            .menu-bar ul {gap:10px;}
+            .menu-bar a {font-size:1em;padding:5px 10px;}
+            .highlight {min-width:100px;}
+            .social-share {flex-direction:column;align-items:center;}
+            .social-share a {width:100%;max-width:250px;justify-content:center;}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Evening Contra Dance</h1>
+        <p class="event-subtitle">Methow Valley UMC Fellowship Hall, Twisp WA</p>
+    </header>
+    <nav class="menu-bar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+        </ul>
+    </nav>
+    <div class="main-content">
+        <div class="event-details">
+            <!-- 
+            ORIGINAL EVENT CONTENT (commented out - restore by removing this comment block)
+            <h2 id="dynamic-date">Loading…</h2>
+            <p>Join us for an evening of easy and fun contra dancing! This social, upbeat community folk dance features simple patterns anyone can learn — no experience or partner needed.</p>
+            <p>We teach all the steps before each dance, making it perfect for everyone. Come to dance or just soak up the great company!</p>
+            -->
+            <h2>Contra Dance canceled Saturday night</h2>
+            <p>my moves got arrested for excessive grooving 😭</p>
+            <p>Redirecting all that energy to:</p>
+            <p><strong>Valentine Party at Methow Valley Community Center instead!</strong></p>
+            <p>Come shake it properly there 💃🕺❤️</p>
+        </div>
+        <div class="highlights">
+            <div class="highlight"><p>Free Event</p></div>
+            <div class="highlight"><p>Great for beginners</p></div>
+            <div class="highlight"><p>Come solo or with a friend</p></div>
+            <div class="highlight"><p>Drop in anytime — stay as long as you like</p></div>
+            <div class="highlight"><p>Comfortable shoes recommended</p></div>
+            <div class="highlight"><p>Wear whatever you feel good moving in — casual is perfect</p></div>
+        </div>
+        <div class="cta">
+            <p>Let’s share music, movement, and connection. Hope to see you there!</p>
+        </div>
+        <div class="social-share">
+            <a href="#" onclick="shareFacebook()">Share on Facebook</a>
+            <a href="#" onclick="shareTwitter()">Share on X (Twitter)</a>
+            <a href="#" onclick="shareInstagram()">Share on Instagram</a>
+            <a href="#" onclick="shareTikTok()">Share on TikTok</a>
+        </div>
+    </div>
+    <footer>
+        <p>More info: contradancetwisp@gmail.com</p>
+    </footer>
+<script>
+    // Temporarily disabled dynamic date fetch during cancellation
+    /*
+    async function updateNextDanceFromAPI() { ... }
+    updateNextDanceFromAPI();
+    */
+
+    const shareText = "Unlock Twisp contra: Teaches per dance, free door. Show Saturdays & dance the night. ";
+    const currentUrl = encodeURIComponent(window.location.href);
+    function shareFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`,'_blank'); }
+    function shareTwitter() { window.open(`https://twitter.com/intent/tweet?url=${currentUrl}&text=${encodeURIComponent(shareText + currentUrl + ' #ContraDance #Twisp')}`,'_blank'); }
+    async function shareInstagram() { try { await navigator.clipboard.writeText(shareText + currentUrl); alert('Copied! Paste into IG'); } catch { prompt('Copy:', shareText + currentUrl); } }
+    async function shareTikTok() { shareInstagram(); }
+</script>
+</body>
+</html>
