@@ -156,7 +156,7 @@
             const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             const h2 = document.querySelector('.event-details h2');
             if (h2) {
-                h2.textContent = `This Coming Saturday, ${monthNames[eventDate.getMonth()]} ${eventDate.getDate()} | 6:00–9:00 PM`;
+                h2.textContent = `This Coming Saturday, ${monthNames[eventDate.getMonth()]} ${eventDate.getDate()} | 6:00–8:00 PM`;
             }
         } catch (error) {
             console.warn('API fetch failed – using weekly Saturday fallback', error);
@@ -168,7 +168,7 @@
             nextSaturday.setDate(today.getDate() + daysToAdd);
             const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             const h2 = document.querySelector('.event-details h2');
-            if (h2) h2.textContent = `This Coming Saturday, ${monthNames[nextSaturday.getMonth()]} ${nextSaturday.getDate()} | 6:00–9:00 PM`;
+            if (h2) h2.textContent = `This Coming Saturday, ${monthNames[nextSaturday.getMonth()]} ${nextSaturday.getDate()} | 6:00–8:00 PM`;
         }
     }
     
