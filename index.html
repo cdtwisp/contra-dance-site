@@ -156,26 +156,26 @@
             const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             const h2 = document.querySelector('.event-details h2');
             if (h2) {
-                h2.textContent = `This Coming Saturday, ${monthNames[eventDate.getMonth()]} ${eventDate.getDate()} | 6:00–8:00 PM`;
+                h2.textContent = `Sunday, ${monthNames[eventDate.getMonth()]} ${eventDate.getDate()} | 6:00–8:00 PM`;
             }
         } catch (error) {
-            console.warn('API fetch failed – using weekly Saturday fallback', error);
-            // Fallback to regular Saturday logic
+            console.warn('API fetch failed – using weekly Sunday fallback', error);
+            // Fallback to regular Sunday logic
             const today = new Date();
-            const weekday = today.getDay(); // 6 = Saturday
+            const weekday = today.getDay(); // 6 = Sunday
             let daysToAdd = (weekday === 6) ? 0 : (6 - weekday + 7) % 7 || 7;
-            const nextSaturday = new Date(today);
-            nextSaturday.setDate(today.getDate() + daysToAdd);
+            const nextSunday = new Date(today);
+            nextSunday.setDate(today.getDate() + daysToAdd);
             const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             const h2 = document.querySelector('.event-details h2');
-            if (h2) h2.textContent = `This Coming Saturday, ${monthNames[nextSaturday.getMonth()]} ${nextSaturday.getDate()} | 6:00–8:00 PM`;
+            if (h2) h2.textContent = `Sunday, ${monthNames[nextSunday.getMonth()]} ${nextSunday.getDate()} | 6:00–8:00 PM`;
         }
     }
     
     updateNextDanceFromAPI();
 
     // Your social sharing (unchanged)
-    const shareText = "Unlock Twisp contra: Teaches per dance, free door. Show Saturdays & dance the night. ";
+    const shareText = "Unlock Twisp contra: Teaches per dance, free door. Show Sundays & dance the night. ";
     const currentUrl = encodeURIComponent(window.location.href);
     function shareFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`,'_blank'); }
     function shareTwitter() { window.open(`https://twitter.com/intent/tweet?url=${currentUrl}&text=${encodeURIComponent(shareText + currentUrl + ' #ContraDance #Twisp')}`,'_blank'); }
